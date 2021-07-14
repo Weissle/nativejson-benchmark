@@ -6,4 +6,6 @@
 /result/*.csv
 /result/*.html
 /result/*.md
+/.cache
+/compile_commands.json
 src/machine.h
