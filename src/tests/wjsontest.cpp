@@ -148,6 +148,7 @@ public:
     }
 #endif
 
-REGISTER_TEST(WjsonTest);
 
 };
+
+REGISTER_TEST(WjsonTest);
