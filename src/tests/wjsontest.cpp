@@ -89,7 +89,7 @@ public:
 
         //sr->s = pr->root.dump();
 		std::stringstream stream;
-		pr->root.Dump(stream,0);
+		pr->root.Dump(stream,false);
 		sr->s = stream.str();
 
         return sr;
@@ -103,7 +103,7 @@ public:
 
         //sr->s = pr->root.dump(4);
 		std::stringstream stream;
-		pr->root.Dump(stream,4,' ');
+		pr->root.Dump(stream,true,4,' ');
 		sr->s = stream.str();
         return sr;
     }
