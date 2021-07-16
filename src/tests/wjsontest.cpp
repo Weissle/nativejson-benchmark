@@ -72,7 +72,7 @@ public:
         WjsonParseResult* pr = new WjsonParseResult;
         try {
             //pr->root = json::parse(j);
-			pr->root.Parse(j);
+			pr->root.ParseAny(j);
         }
         catch (...) {
             delete pr;
@@ -125,7 +125,7 @@ public:
             //*d = root[0].get<double>();
 			Json json;
 			json.ParseAny(j);
-			*d = json.GetDouble();
+			*d = json[0].GetDouble();
             return true;
         }
         catch (...) {
@@ -139,7 +139,7 @@ public:
             //s = root[0].get<std::string>();
             Json json;
 			json.ParseAny(j);
-			s = json.GetString();
+			s = json[0].GetString();
             return true;
         }
         catch (...) {
