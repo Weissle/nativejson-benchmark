@@ -1,12 +1,14 @@
 
 #include "../test.h"
 #include "wjson/json.hpp"
+#include "wjson/parse.cpp"
+
 #include <sstream>
 
 
 using namespace wjson;
 
-static void GenStat(Stat& stat, const ValueWarpConst& v) {
+static void GenStat(Stat& stat, const Json& v) {
 	switch (v.GetType()) {
 		case ValueType::Array:
 			for(auto it = v.ArrayBegin();it != v.ArrayEnd();++it) GenStat(stat,*it);
@@ -16,8 +18,8 @@ static void GenStat(Stat& stat, const ValueWarpConst& v) {
 		
 		case ValueType::Object:
 			for(auto it = v.ObjectBegin();it != v.ObjectEnd();++it) {
-				GenStat(stat,it.Value());
-				stat.stringLength += it.Key().size();
+				GenStat(stat,it->second);
+				stat.stringLength += it->first.size();
 			}
 			stat.objectCount++;
 			stat.memberCount += v.Size();
@@ -34,7 +36,7 @@ static void GenStat(Stat& stat, const ValueWarpConst& v) {
 			break;
 
 		case ValueType::Bool:
-			if (v.GetBool())
+			if (v.Get<Bool>())
 				stat.trueCount++;
 			else
 				stat.falseCount++;
@@ -72,7 +74,7 @@ public:
         WjsonParseResult* pr = new WjsonParseResult;
         try {
             //pr->root = json::parse(j);
-			pr->root.ParseAny(j);
+			pr->root = wjson::Parse(j);
         }
         catch (...) {
             delete pr;
@@ -124,8 +126,8 @@ public:
             //json root = json::parse(j);
             //*d = root[0].get<double>();
 			Json json;
-			json.ParseAny(j);
-			*d = json[0].GetDouble();
+			json = wjson::Parse(j);
+			*d = json[0].Get<Number>();
             return true;
         }
         catch (...) {
@@ -138,8 +140,8 @@ public:
             //json root = json::parse(j);
             //s = root[0].get<std::string>();
             Json json;
-			json.ParseAny(j);
-			s = json[0].GetString();
+			json = wjson::Parse(j);
+			s = json[0].Get<String>();
             return true;
         }
         catch (...) {
