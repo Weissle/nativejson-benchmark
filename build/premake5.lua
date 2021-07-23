@@ -154,7 +154,7 @@ solution "benchmark"
 		links "jsonclibs"
 
 		configuration "gmake"
-			buildoptions "-std=c++14"
+			buildoptions "-std=c++17"
 
 solution "jsonstat"
     configurations { "release" }
@@ -243,5 +243,5 @@ solution "jsonstat"
       --linkoptions { "../../thirdparty/ULib/src/ulib/.libs/libulib.a" }
 
 			configuration "gmake"
-				buildoptions "-std=c++14"
+				buildoptions "-std=c++17"
     end
