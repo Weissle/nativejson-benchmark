@@ -1,7 +1,7 @@
 
 #include "../test.h"
 #include "wjson/json.h"
-#include "wjson/parse.cpp"
+#include "wjson/json.cpp"
 
 #include <sstream>
 
