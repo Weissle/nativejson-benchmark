@@ -1,6 +1,6 @@
 
 #include "../test.h"
-#include "wjson/json.hpp"
+#include "wjson/json.h"
 #include "wjson/parse.cpp"
 
 #include <sstream>
