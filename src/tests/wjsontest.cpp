@@ -9,26 +9,26 @@
 using namespace wjson;
 
 static void GenStat(Stat& stat, const Json& v) {
-	switch (v.GetType()) {
+	switch (v.type()) {
 		case ValueType::Array:
-			for(auto it = v.ArrayBegin();it != v.ArrayEnd();++it) GenStat(stat,*it);
+			for(auto it = v.array_begin();it != v.array_end();++it) GenStat(stat,*it);
 			stat.arrayCount++;
-			stat.elementCount += v.Size();
+			stat.elementCount += v.size();
 			break;
 		
 		case ValueType::Object:
-			for(auto it = v.ObjectBegin();it != v.ObjectEnd();++it) {
+			for(auto it = v.object_begin();it != v.object_end();++it) {
 				GenStat(stat,it->second);
 				stat.stringLength += it->first.size();
 			}
 			stat.objectCount++;
-			stat.memberCount += v.Size();
-			stat.stringCount += v.Size();
+			stat.memberCount += v.size();
+			stat.stringCount += v.size();
 			break;
 
 		case ValueType::String:
 			stat.stringCount++;
-			stat.stringLength += v.Size();
+			stat.stringLength += v.size();
 			break;
 
 		case ValueType::Number:
@@ -36,7 +36,7 @@ static void GenStat(Stat& stat, const Json& v) {
 			break;
 
 		case ValueType::Bool:
-			if (v.Get<Bool>())
+			if (v.get<Bool>())
 				stat.trueCount++;
 			else
 				stat.falseCount++;
@@ -74,7 +74,7 @@ public:
         WjsonParseResult* pr = new WjsonParseResult;
         try {
             //pr->root = json::parse(j);
-			pr->root = wjson::Parse(j);
+			pr->root.parse(j);
         }
         catch (...) {
             delete pr;
@@ -91,7 +91,7 @@ public:
 
         //sr->s = pr->root.dump();
 		std::stringstream stream;
-		pr->root.Dump(stream,false);
+		pr->root.dump(stream);
 		sr->s = stream.str();
 
         return sr;
@@ -105,7 +105,7 @@ public:
 
         //sr->s = pr->root.dump(4);
 		std::stringstream stream;
-		pr->root.Dump(stream,true,4,' ');
+		pr->root.pretty(stream,4,' ');
 		sr->s = stream.str();
         return sr;
     }
@@ -126,8 +126,8 @@ public:
             //json root = json::parse(j);
             //*d = root[0].get<double>();
 			Json json;
-			json = wjson::Parse(j);
-			*d = json[0].Get<Number>();
+			json.parse(j);
+			*d = json[0].get<Number>();
             return true;
         }
         catch (...) {
@@ -140,8 +140,8 @@ public:
             //json root = json::parse(j);
             //s = root[0].get<std::string>();
             Json json;
-			json = wjson::Parse(j);
-			s = json[0].Get<String>();
+			json.parse(j);
+			s = json[0].get<String>();
             return true;
         }
         catch (...) {
